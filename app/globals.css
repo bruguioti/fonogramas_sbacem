@@ -1,26 +1,49 @@
 @import "tailwindcss";
 
+@theme {
+  --color-gemini-bg: #ffffff;
+  --color-gemini-sidebar: #f0f4f9; /* Cinza azulado bem claro */
+  --color-gemini-card: #f8fafd;
+  --color-gemini-hover: #e9eef6;
+  --color-text-main: #1f1f1f;
+  --color-text-dim: #5e5e5e;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  background-color: #ffffff;
+  color: #1f1f1f;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+@layer components {
+  /* Gradiente Gemini mas em tons que funcionam no fundo branco */
+  .gemini-gradient-text {
+    background: linear-gradient(
+      74deg, 
+      #1a73e8 0%, 
+      #7b1fa2 25%, 
+      #d93025 50%, 
+      #1a73e8 100%
+    );
+    background-size: 400% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gemini-gradient 12s linear infinite;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  .gemini-card-light {
+    background-color: #f8fafd;
+    border: 1px solid #edf2f7;
+    border-radius: 1.5rem;
+    transition: all 0.2s ease;
+  }
+
+  .gemini-card-light:hover {
+    background-color: #f0f4f9;
+    border-color: #d2e3fc;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@keyframes gemini-gradient {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 400% 50%; }
 }

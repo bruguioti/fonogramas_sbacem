@@ -1,0 +1,179 @@
+{
+  "users": [],
+  "batches": [
+    {
+      "id": "fy8hdxs",
+      "userId": "admin_01",
+      "totalItems": 7,
+      "createdAt": "2026-01-29T00:37:27.625Z",
+      "updatedAt": "2026-01-29T21:16:39.879Z",
+      "phonograms": [
+        {
+          "Title ": "A TIME GOES BY",
+          "Composer ": "GANGALANTI",
+          "Controlled Publishers": "DIPIU SRL/GUFO RECORDS EDICAO DE GRAVACOES DE AUDIO E VIDEO LTDA/RAI COM S.P.A.",
+          "Mech. Ownership": 50,
+          "Perf. Ownership": 50,
+          "Mech. Collection": 50,
+          "Perf. Collection": 50,
+          "Language": "IT",
+          "ISWC": "T3276874766",
+          "ISRC": "IT-E32-23-31100",
+          "Main Artist": "MASSIMILIANO GANGALANTI"
+        },
+        {
+          "Title ": "A VOCE ALTA",
+          "Composer ": "MAINETTI",
+          "Controlled Publishers": "DIPIU SRL/GUFO RECORDS EDICAO DE GRAVACOES DE AUDIO E VIDEO LTDA/RAI COM S.P.A.",
+          "Mech. Ownership": 50,
+          "Perf. Ownership": 50,
+          "Mech. Collection": 50,
+          "Perf. Collection": 50,
+          "Language": "IT",
+          "ISWC": "T3276874767",
+          "ISRC": "FR-6V8-20-00852",
+          "Main Artist": ""
+        },
+        {
+          "Title ": "ABANUEA",
+          "Composer ": "AGUS",
+          "Controlled Publishers": "DIPIU SRL/GUFO RECORDS EDICAO DE GRAVACOES DE AUDIO E VIDEO LTDA/RIGHT TEMPO SNC DI PANDIANI ROCCO",
+          "Mech. Ownership": 100,
+          "Perf. Ownership": 50,
+          "Mech. Collection": 100,
+          "Perf. Collection": 50,
+          "Language": "EN",
+          "ISWC": "T-005.410.928-2",
+          "ISRC": "IT-H75-98-00073",
+          "Main Artist": ""
+        },
+        {
+          "Title ": "ABBANDONATA",
+          "Composer ": "ROTONDO",
+          "Controlled Publishers": "DIPIU SRL/GUFO RECORDS EDICAO DE GRAVACOES DE AUDIO E VIDEO LTDA/RAI COM S.P.A.",
+          "Mech. Ownership": 50,
+          "Perf. Ownership": 50,
+          "Mech. Collection": 50,
+          "Perf. Collection": 50,
+          "Language": "IT",
+          "ISWC": "T-005.410.937-3",
+          "ISRC": "IT-E32-18-23844",
+          "Main Artist": ""
+        },
+        {
+          "Title ": "ABBANDONATI",
+          "Composer ": "CUGIA DI SANT'ORSOLA/FRANCISCI",
+          "Controlled Publishers": "DIPIU SRL/GUFO RECORDS EDICAO DE GRAVACOES DE AUDIO E VIDEO LTDA/RAI COM S.P.A.",
+          "Mech. Ownership": 50,
+          "Perf. Ownership": 50,
+          "Mech. Collection": 50,
+          "Perf. Collection": 50,
+          "Language": "IT",
+          "ISWC": "T-005.410.936-2",
+          "ISRC": "IT-E32-23-31185",
+          "Main Artist": "LUCIANO FRANCISCI"
+        },
+        {
+          "Title ": "ABBANDONO POMERIDIANO",
+          "Composer ": "TALARICO",
+          "Controlled Publishers": "DIPIU SRL/GUFO RECORDS EDICAO DE GRAVACOES DE AUDIO E VIDEO LTDA/RAI COM S.P.A.",
+          "Mech. Ownership": 50,
+          "Perf. Ownership": 50,
+          "Mech. Collection": 50,
+          "Perf. Collection": 50,
+          "Language": "IT",
+          "ISWC": "T-200.496.798-7",
+          "ISRC": "IT-E32-22-29430",
+          "Main Artist": "IVAN TALARICO"
+        },
+        {
+          "Title ": "ABBATTERE E LEVARE",
+          "Composer ": "TALARICO",
+          "Controlled Publishers": "DIPIU SRL/GUFO RECORDS EDICAO DE GRAVACOES DE AUDIO E VIDEO LTDA/RAI COM S.P.A.",
+          "Mech. Ownership": 50,
+          "Perf. Ownership": 50,
+          "Mech. Collection": 50,
+          "Perf. Collection": 50,
+          "Language": "IT",
+          "ISWC": "",
+          "ISRC": "IT-E32-23-30967",
+          "Main Artist": "IVAN TALARICO"
+        }
+      ]
+    }
+  ],
+  "phonograms": [
+    {
+      "id": "jf75muz",
+      "isrc": "IT-E32-23-31100",
+      "titulo": "A TIME GOES BY",
+      "interprete": "MASSIMILIANO GANGALANTI",
+      "produtor": "",
+      "batchId": "cv0uwd5"
+    },
+    {
+      "id": "7jo8w3j",
+      "isrc": "FR-6V8-20-00852",
+      "titulo": "A VOCE ALTA",
+      "interprete": "",
+      "produtor": "",
+      "batchId": "cv0uwd5"
+    },
+    {
+      "id": "iy6w0ub",
+      "isrc": "IT-H75-98-00073",
+      "titulo": "ABANUEA",
+      "interprete": "",
+      "produtor": "",
+      "batchId": "cv0uwd5"
+    },
+    {
+      "id": "dh67z4p",
+      "isrc": "IT-E32-18-23844",
+      "titulo": "ABBANDONATA",
+      "interprete": "",
+      "produtor": "",
+      "batchId": "cv0uwd5"
+    },
+    {
+      "id": "6i9f0py",
+      "isrc": "IT-E32-23-31185",
+      "titulo": "ABBANDONATI",
+      "interprete": "LUCIANO FRANCISCI",
+      "produtor": "",
+      "batchId": "cv0uwd5"
+    },
+    {
+      "id": "skvroxk",
+      "isrc": "IT-E32-22-29430",
+      "titulo": "ABBANDONO POMERIDIANO",
+      "interprete": "IVAN TALARICO",
+      "produtor": "",
+      "batchId": "cv0uwd5"
+    },
+    {
+      "id": "2lnui3k",
+      "isrc": "IT-E32-23-30967",
+      "titulo": "ABBATTERE E LEVARE",
+      "interprete": "IVAN TALARICO",
+      "produtor": "",
+      "batchId": "cv0uwd5"
+    }
+  ],
+  "logs": [
+    {
+      "id": "g2v5y2m",
+      "acao": "EXCLUSÃO",
+      "usuario": "Administrador",
+      "detalhes": "Lote 5l2bt68 com 1 registros foi apagado.",
+      "data": "2026-01-29T00:33:16.826Z"
+    },
+    {
+      "id": "21uhcg9",
+      "acao": "EXCLUSÃO",
+      "usuario": "Administrador",
+      "detalhes": "Lote cv0uwd5 com 7 registros foi apagado.",
+      "data": "2026-01-29T00:33:24.694Z"
+    }
+  ]
+}
