@@ -25,13 +25,19 @@ export default function LoginPage() {
       const data = await response.json();
 
       if (response.ok) {
-        // --- ATUALIZAÇÃO AQUI ---
-        // Agora salvamos tudo que o Aside precisa para validar seu acesso
+        // 1. Persistência para o Front-end (Define o que aparece no menu)
         localStorage.setItem("user_authenticated", "true");
         localStorage.setItem("user_email", email);
-        localStorage.setItem("user_role", data.user.cargo); // Salva 'admin' ou 'funcionario'
-        
+        localStorage.setItem("user_role", data.user.cargo); 
+
+        // 2. Persistência para o Servidor/Proxy (Garante que o Next.js não bloqueie a rota)
+        // Criamos um cookie que o Middleware consegue ler
+        document.cookie = `user_token=true; path=/; max-age=86400; SameSite=Lax`;
+
+        // 3. Redireciona para o Dashboard principal
         router.push("/");
+        // Forçamos um refresh rápido para garantir que o Proxy valide os cookies novos
+        router.refresh(); 
       } else {
         setErro(data.message || "Credenciais inválidas.");
       }
