@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Lock, User, ArrowRight, Loader2 } from "lucide-react";
+import { Lock, Mail, ArrowRight, Loader2 } from "lucide-react";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -25,67 +25,68 @@ export default function LoginPage() {
       const data = await response.json();
 
       if (response.ok) {
+        // --- ATUALIZAÇÃO AQUI ---
+        // Agora salvamos tudo que o Aside precisa para validar seu acesso
         localStorage.setItem("user_authenticated", "true");
         localStorage.setItem("user_email", email);
-        router.push("/intranet");
+        localStorage.setItem("user_role", data.user.cargo); // Salva 'admin' ou 'funcionario'
+        
+        router.push("/");
       } else {
         setErro(data.message || "Credenciais inválidas.");
       }
     } catch (error) {
-      setErro("Erro ao conectar com o servidor SQL.");
+      setErro("Erro ao conectar com o servidor.");
     } finally {
       setCarregando(false);
     }
   };
 
   return (
-    <div className="min-h-screen w-full flex bg-white font-sans overflow-hidden">
-      
-      {/* COLUNA ESQUERDA: FORMULÁRIO */}
-      <div className="w-full lg:w-[500px] flex flex-col justify-center px-8 md:px-16 bg-white z-10 shadow-2xl relative">
-        <div className="w-full max-w-sm mx-auto animate-in fade-in slide-in-from-left-6 duration-700">
+    <div className="min-h-screen w-full flex bg-slate-50 font-sans">
+      {/* Lado Esquerdo: Formulário */}
+      <div className="w-full lg:w-[480px] flex flex-col justify-center px-10 md:px-16 bg-white z-10 shadow-2xl">
+        <div className="w-full max-w-sm mx-auto">
           
           <div className="mb-12">
-            <div className="mb-6">
-              <img 
-                src="https://play-lh.googleusercontent.com/LSeEJ8rgAVAet-UO_WMh0Z63A_mBGS6o386ipFtIV4ci1UNx63Y2svcIbwihwnqruWQ" 
-                alt="Logo SBACEM" 
-                className="w-16 h-16 rounded-2xl object-cover shadow-md border border-gray-100"
-              />
-            </div>
-            <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">
-              SBACEM <span className="text-blue-600 font-black">PRO</span>
+            <img 
+              src="/logo-sbacem.png" 
+              alt="Logo SBACEM" 
+              className="h-16 w-auto mb-8 object-contain"
+            />
+            <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
+              Bem-vindo de volta
             </h1>
-            <p className="text-gray-400 mt-2 font-medium text-xs uppercase tracking-[3px]">
-              Business Intelligence
+            <p className="text-slate-500 text-sm mt-2">
+              Acesse o sistema de fonogramas <span className="font-semibold text-[#D8315B]">SBACEM</span>.
             </p>
           </div>
 
           <form onSubmit={handleLogin} className="space-y-5">
-            <div className="space-y-1">
-              <label className="text-[11px] font-bold text-gray-400 uppercase tracking-wider ml-1">Usuário corporativo</label>
-              <div className="relative group">
-                <User className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-blue-600 transition-colors" size={18} />
+            <div className="space-y-2">
+              <label className="text-xs font-semibold text-slate-700 ml-1">E-mail</label>
+              <div className="relative">
+                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                 <input 
                   type="email" 
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-12 pr-4 py-4 bg-gray-50 border-2 border-transparent rounded-2xl focus:bg-white focus:border-blue-100 focus:ring-4 focus:ring-blue-500/5 transition-all outline-none text-sm font-medium"
-                  placeholder="nome@sbacem.org.br"
+                  className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#D8315B] focus:ring-4 focus:ring-pink-50 outline-none text-sm transition-all placeholder:text-slate-400"
+                  placeholder="nome@exemplo.com"
                   required
                 />
               </div>
             </div>
 
-            <div className="space-y-1">
-              <label className="text-[11px] font-bold text-gray-400 uppercase tracking-wider ml-1">Senha de acesso</label>
-              <div className="relative group">
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-blue-600 transition-colors" size={18} />
+            <div className="space-y-2">
+              <label className="text-xs font-semibold text-slate-700 ml-1">Senha</label>
+              <div className="relative">
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                 <input 
                   type="password" 
                   value={senha}
                   onChange={(e) => setSenha(e.target.value)}
-                  className="w-full pl-12 pr-4 py-4 bg-gray-50 border-2 border-transparent rounded-2xl focus:bg-white focus:border-blue-100 focus:ring-4 focus:ring-blue-500/5 transition-all outline-none text-sm font-medium"
+                  className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#8E44AD] focus:ring-4 focus:ring-purple-50 outline-none text-sm transition-all placeholder:text-slate-400"
                   placeholder="••••••••"
                   required
                 />
@@ -93,7 +94,7 @@ export default function LoginPage() {
             </div>
 
             {erro && (
-              <div className="bg-red-50 text-red-600 text-xs font-bold p-4 rounded-2xl text-center border border-red-100 animate-in shake duration-300">
+              <div className="bg-red-50 text-red-600 text-[13px] p-3 rounded-lg border border-red-100 font-medium text-center animate-shake">
                 {erro}
               </div>
             )}
@@ -101,47 +102,45 @@ export default function LoginPage() {
             <button 
               type="submit"
               disabled={carregando}
-              className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-200 text-white py-4 rounded-2xl font-bold flex items-center justify-center gap-3 transition-all shadow-lg shadow-blue-100 active:scale-[0.98] mt-4"
+              className="w-full bg-slate-900 hover:bg-slate-800 text-white py-3.5 rounded-xl font-semibold flex items-center justify-center gap-2 transition-all active:scale-[0.98] mt-8 disabled:opacity-70"
             >
-              {carregando ? (
-                <Loader2 size={20} className="animate-spin" />
-              ) : (
-                <>
-                  Entrar no Portal
-                  <ArrowRight size={18} />
-                </>
-              )}
+              {carregando ? <Loader2 size={20} className="animate-spin" /> : <>Entrar no painel <ArrowRight size={18} /></>}
             </button>
           </form>
 
-          <div className="mt-12 pt-8 border-t border-gray-50">
-             <p className="text-gray-400 text-xs font-medium">
-               Dificuldades no acesso? <br/>
-               <span className="text-blue-600 font-bold hover:underline cursor-pointer">Contate a TI SBACEM</span>
-             </p>
-          </div>
+          <footer className="mt-12 text-center">
+            <p className="text-slate-400 text-xs">© 2026 SBACEM - Todos os direitos reservados.</p>
+          </footer>
         </div>
       </div>
 
-      {/* COLUNA DIREITA: IMAGEM DE DASHBOARD */}
-      <div className="hidden lg:flex flex-1 bg-slate-50 relative items-center justify-center p-12">
-        <div className="absolute top-[-10%] right-[-10%] w-[600px] h-[600px] bg-blue-200/20 rounded-full blur-[100px]" />
-        <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-indigo-200/20 rounded-full blur-[100px]" />
+      {/* Lado Direito: Visual Impactante */}
+      <div className="hidden lg:flex flex-1 relative items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 bg-[#D8315B]" />
+        <div className="absolute inset-0 opacity-40 bg-[radial-gradient(circle_at_50%_50%,_#8E44AD_0%,_transparent_50%)]" />
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-white/10 rounded-full blur-3xl -mr-64 -mt-64" />
         
-        <div className="relative z-10 w-full max-w-4xl animate-in fade-in zoom-in duration-1000">
-          <div className="bg-white/40 backdrop-blur-md p-3 rounded-[3.5rem] border border-white/50 shadow-2xl">
-            <img 
-              src="http://googleusercontent.com/image_collection/image_retrieval/989269330813043665_0" 
-              alt="Dashboard Preview" 
-              className="rounded-[3rem] w-full h-auto object-cover shadow-sm"
-            />
-          </div>
-          <div className="mt-10 text-center space-y-2">
-            <h2 className="text-2xl font-bold text-slate-800">Sua central de BI está pronta</h2>
-            <p className="text-slate-500 font-medium">Acompanhe métricas e fonogramas em um só lugar.</p>
-          </div>
+        <div className="relative z-10 p-12 max-w-lg">
+            <h2 className="text-5xl font-extrabold text-white leading-tight tracking-tight">
+              Gerencie seus <span className="underline decoration-pink-300">fonogramas</span> com precisão.
+            </h2>
+            <div className="mt-8 h-1.5 w-20 bg-white rounded-full" />
+            <p className="mt-6 text-white/70 text-lg font-light leading-relaxed">
+              Plataforma interna exclusiva para membros e administradores SBACEM.
+            </p>
         </div>
       </div>
+
+      <style jsx global>{`
+        @keyframes shake {
+          0%, 100% { transform: translateX(0); }
+          25% { transform: translateX(-4px); }
+          75% { transform: translateX(4px); }
+        }
+        .animate-shake {
+          animation: shake 0.2s ease-in-out 0s 2;
+        }
+      `}</style>
     </div>
   );
 }

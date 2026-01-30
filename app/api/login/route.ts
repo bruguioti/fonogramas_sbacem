@@ -1,37 +1,52 @@
 import { NextResponse } from "next/server";
-import { Client } from "pg";
+import { getDb } from "@/lib/db";
 
 export async function POST(request: Request) {
   try {
-    const { email, senha } = await request.json();
+    const body = await request.json();
+    const { email, senha } = body;
 
-    const client = new Client({
-      connectionString: process.env.DATABASE_URL,
-    });
+    const db = await getDb();
 
-    await client.connect();
-
-    // Busca no banco do Docker usando o SQL que geramos no seed
-    const query = "SELECT id, nome, email FROM usuarios WHERE email = $1 AND senha = $2 LIMIT 1";
-    const result = await client.query(query, [email, senha]);
-
-    await client.end();
-
-    if (result.rows.length > 0) {
-      return NextResponse.json({ 
-        success: true, 
-        user: result.rows[0] 
+    // 1. Se o banco estiver vazio, cria o admin com o campo CARGO
+    if (db.data.users.length === 0) {
+      db.data.users.push({
+        id: "admin_01",
+        email: "admin@admin.com",
+        senha: "123456",
+        nome: "Admin Inicial",
+        cargo: "admin" // <--- ADICIONADO AQUI
       });
-    } else {
-      return NextResponse.json(
-        { message: "Usuário ou senha incorretos." },
-        { status: 401 }
-      );
+      await db.write();
     }
-  } catch (error) {
-    console.error("Erro no SQL:", error);
+
+    // 2. Busca o usuário
+    const user = db.data.users.find(
+      (u) => u.email === email && (u.senha === senha || u.password === senha)
+    );
+
+    if (user) {
+      // 3. RETORNA O CARGO PARA O FRONT-END
+      return NextResponse.json({ 
+        success: true,
+        user: { 
+          id: user.id, 
+          name: user.nome, 
+          email: user.email,
+          cargo: user.cargo || "funcionario" // <--- ENVIANDO PARA O FRONT
+        } 
+      });
+    }
+
     return NextResponse.json(
-      { message: "Erro interno no servidor SQL." },
+      { success: false, message: "E-mail ou senha incorretos." },
+      { status: 401 }
+    );
+
+  } catch (error) {
+    console.error("Erro no login:", error);
+    return NextResponse.json(
+      { success: false, message: "Erro ao acessar o banco de dados." },
       { status: 500 }
     );
   }

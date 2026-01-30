@@ -1,26 +1,21 @@
 // lib/db.ts
 import { JSONFilePreset } from 'lowdb/node';
 
-export type Phonogram = {
+export type User = {
   id: string;
-  isrc: string;
-  titulo: string;
-  interprete: string;
-  produtor: string;
-  batchId: string;
+  email: string;
+  senha?: string;    // senha para o login
+  password?: string; // fallback se você usou password em algum lugar
+  nome: string;
+  cargo: "admin" | "funcionario"; // <--- IMPORTANTE: Define o tipo do cargo
 };
 
-export type Batch = {
-  id: string;
-  userId: string;
-  totalItems: number;
-  createdAt: string;
-};
+// ... restante dos tipos (Phonogram, Batch)
 
 export type DatabaseSchema = {
-  users: any[];
-  batches: Batch[];
-  phonograms: Phonogram[];
+  users: User[]; // <--- Use o tipo User aqui
+  batches: any[];
+  phonograms: any[];
 };
 
 const defaultData: DatabaseSchema = { users: [], batches: [], phonograms: [] };

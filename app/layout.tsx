@@ -8,7 +8,7 @@ const geistSans = Geist({
 });
 
 export const metadata: Metadata = {
-  title: "SBACEM PRO | AI Interface",
+  title: "Sbacem - Fonogramas",
   description: "Gerenciamento inteligente de fonogramas",
 };
 

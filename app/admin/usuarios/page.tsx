@@ -1,75 +1,97 @@
-// app/admin/usuarios/page.tsx
 "use client";
-import { useState } from "react";
-import { Shield, UserPlus, Trash2, Edit2, Check, X } from "lucide-react";
+import { useState, useEffect } from "react";
+import { UserPlus, Shield, User, Trash2, Mail, BadgeCheck } from "lucide-react";
 
 export default function GestaoUsuarios() {
-  const [usuarios, setUsuarios] = useState([
-    { id: 1, nome: "João Silva", email: "joao@sbacem.org.br", role: "ADMIN", status: "ATIVO" },
-    { id: 2, nome: "Maria Souza", email: "maria@sbacem.org.br", role: "USER", status: "ATIVO" },
-  ]);
+  const [usuarios, setUsuarios] = useState([]);
+  const [novoUser, setNovoUser] = useState({ nome: "", email: "", senha: "", cargo: "funcionario" });
+
+  useEffect(() => { carregarUsuarios(); }, []);
+
+  const carregarUsuarios = async () => {
+    const res = await fetch("/api/users");
+    const data = await res.json();
+    setUsuarios(data);
+  };
+
+  const handlesalvar = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const res = await fetch("/api/users", {
+      method: "POST",
+      body: JSON.stringify(novoUser),
+      headers: { "Content-Type": "application/json" }
+    });
+    if (res.ok) {
+      setNovoUser({ nome: "", email: "", senha: "", cargo: "funcionario" });
+      carregarUsuarios();
+    }
+  };
+
+  const excluirUser = async (id: string) => {
+    if (confirm("Excluir usuário?")) {
+      await fetch(`/api/users?id=${id}`, { method: "DELETE" });
+      carregarUsuarios();
+    }
+  };
 
   return (
-    <div className="p-8">
-      <header className="flex justify-between items-center mb-8">
+    <div className="p-8 max-w-6xl mx-auto space-y-8">
+      <header className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-black text-slate-800 tracking-tight">Gestão de Acessos</h1>
-          <p className="text-slate-500 font-medium">Controle quem pode exportar remessas e editar fonogramas</p>
+          <h1 className="text-3xl font-bold text-slate-900">Gestão de Equipe</h1>
+          <p className="text-slate-500">Controle quem acessa o sistema SBACEM.</p>
         </div>
-        <button className="bg-indigo-600 text-white px-6 py-3 rounded-2xl font-black shadow-lg shadow-indigo-200 flex items-center gap-2 hover:-translate-y-1 transition-all">
-          <UserPlus size={20} /> NOVO USUÁRIO
-        </button>
       </header>
 
-      {/* Tabela de Usuários Glassmorphism */}
-      <div className="bg-white/40 backdrop-blur-xl border border-white/60 rounded-[2.5rem] shadow-xl overflow-hidden">
-        <table className="w-full text-left">
-          <thead className="bg-white/30 border-b border-white/40">
-            <tr className="text-[11px] font-black uppercase tracking-widest text-slate-400">
-              <th className="p-6">Usuário</th>
-              <th className="p-6">Nível de Acesso</th>
-              <th className="p-6">Status</th>
-              <th className="p-6 text-right">Ações</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-white/20">
-            {usuarios.map((u) => (
-              <tr key={u.id} className="hover:bg-white/50 transition-colors">
-                <td className="p-6">
-                  <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-black">
-                      {u.nome.charAt(0)}
-                    </div>
-                    <div>
-                      <p className="font-bold text-slate-700">{u.nome}</p>
-                      <p className="text-xs text-slate-500">{u.email}</p>
-                    </div>
-                  </div>
-                </td>
-                <td className="p-6">
-                  <span className={`px-3 py-1 rounded-full text-[10px] font-black border ${
-                    u.role === 'ADMIN' ? 'bg-purple-50 text-purple-600 border-purple-100' : 'bg-slate-50 text-slate-600 border-slate-200'
-                  }`}>
-                    {u.role}
-                  </span>
-                </td>
-                <td className="p-6">
-                  <div className="flex items-center gap-2 text-emerald-600 text-xs font-bold">
-                    <Check size={14} /> {u.status}
-                  </div>
-                </td>
-                <td className="p-6 text-right flex justify-end gap-2">
-                  <button className="p-2 hover:bg-white rounded-xl text-slate-400 hover:text-indigo-600 transition-all">
-                    <Edit2 size={18} />
-                  </button>
-                  <button className="p-2 hover:bg-red-50 rounded-xl text-slate-400 hover:text-red-600 transition-all">
-                    <Trash2 size={18} />
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* FORMULÁRIO DE CADASTRO */}
+        <div className="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-100 h-fit">
+          <h2 className="text-lg font-bold mb-6 flex items-center gap-2">
+            <UserPlus size={20} className="text-[#D8315B]" /> Novo Cadastro
+          </h2>
+          <form onSubmit={handlesalvar} className="space-y-4">
+            <input placeholder="Nome" className="w-full p-3 bg-slate-50 rounded-xl outline-none" 
+              value={novoUser.nome} onChange={e => setNovoUser({...novoUser, nome: e.target.value})} required />
+            
+            <input type="email" placeholder="E-mail" className="w-full p-3 bg-slate-50 rounded-xl outline-none" 
+              value={novoUser.email} onChange={e => setNovoUser({...novoUser, email: e.target.value})} required />
+            
+            <input type="password" placeholder="Senha" className="w-full p-3 bg-slate-50 rounded-xl outline-none" 
+              value={novoUser.senha} onChange={e => setNovoUser({...novoUser, senha: e.target.value})} required />
+            
+            <select className="w-full p-3 bg-slate-50 rounded-xl outline-none" 
+              value={novoUser.cargo} onChange={e => setNovoUser({...novoUser, cargo: e.target.value})}>
+              <option value="funcionario">Funcionário Comum</option>
+              <option value="admin">Administrador (Total)</option>
+            </select>
+
+            <button className="w-full bg-slate-900 text-white py-3 rounded-xl font-bold hover:bg-black transition-all">
+              Criar Acesso
+            </button>
+          </form>
+        </div>
+
+        {/* LISTA DE USUÁRIOS */}
+        <div className="lg:col-span-2 space-y-4">
+          {usuarios.map((u: any) => (
+            <div key={u.id} className="bg-white p-5 rounded-2xl flex items-center justify-between border border-slate-50 hover:shadow-md transition-all">
+              <div className="flex items-center gap-4">
+                <div className={`p-3 rounded-xl ${u.cargo === 'admin' ? 'bg-purple-50 text-purple-600' : 'bg-blue-50 text-blue-600'}`}>
+                  {u.cargo === 'admin' ? <Shield size={24} /> : <User size={24} />}
+                </div>
+                <div>
+                  <h3 className="font-bold text-slate-800 flex items-center gap-2">
+                    {u.nome} {u.cargo === 'admin' && <BadgeCheck size={16} className="text-purple-500" />}
+                  </h3>
+                  <p className="text-sm text-slate-400 flex items-center gap-1"><Mail size={12} /> {u.email}</p>
+                </div>
+              </div>
+              <button onClick={() => excluirUser(u.id)} className="p-2 text-slate-300 hover:text-red-500 transition-colors">
+                <Trash2 size={18} />
+              </button>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

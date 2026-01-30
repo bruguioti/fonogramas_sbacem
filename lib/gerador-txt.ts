@@ -1,34 +1,45 @@
-export function exportarParaEcad(dados: any[]) {
-  const formatarLinha = (item: any) => {
-    // 1. Limpeza: Sistemas antigos odeiam acentos ou caracteres especiais
-    const limpar = (txt: string) => 
-      (txt || "")
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "") // Remove acentos
-        .toUpperCase()
-        .replace(/[^A-Z0-9 ]/g, ""); // Mantém apenas letras, números e espaços
+// lib/gerador-txt.ts
 
-    // 2. Aplicação do Layout de largura fixa
-    const isrc = limpar(item.isrc).padEnd(12, " ");
-    const titulo = limpar(item.titulo).substring(0, 40).padEnd(40, " ");
-    const artista = limpar(item.interprete).substring(0, 30).padEnd(30, " ");
+/**
+ * Exporta os dados para TXT ou CSV utilizando ";" como delimitador.
+ * O nome foi mantido como exportarParaEcad para evitar erros de importação no projeto.
+ */
+export function exportarParaEcad(dados: any[], colunas: string[], formato: 'txt' | 'csv' = 'txt') {
+  const prepararCampo = (txt: any) => {
+    const stringLimpa = (txt || "")
+      .toString()
+      .normalize("NFD") // Remove acentos
+      .replace(/[\u0300-\u036f]/g, "")
+      .toUpperCase()
+      .trim();
     
-    return `${isrc}${titulo}${artista}`;
+    // Substitui ponto e vírgula interno por espaço para não quebrar as colunas do arquivo final
+    return stringLimpa.replace(/;/g, " ");
   };
 
-  const conteudo = dados.map(formatarLinha).join("\r\n");
+  // Montagem do conteúdo (Cabeçalho + Linhas)
+  const cabecalho = colunas.join(";");
+  const linhas = dados.map((item) => 
+    colunas.map((col) => prepararCampo(item[col])).join(";")
+  );
 
-  // 3. Importante: Usar Windows-1252 ou UTF-8 dependendo do validador
-  // A maioria dos sistemas legados de direitos autorais prefere Windows-1252
-  const blob = new Blob([conteudo], { type: "text/plain;charset=utf-8" });
+  const conteudoCompleto = [cabecalho, ...linhas].join("\r\n");
+
+  // Define o tipo de arquivo e extensão baseado na escolha
+  const mimeType = formato === 'txt' ? "text/plain" : "text/csv";
+  const extensao = formato === 'txt' ? "txt" : "csv";
+
+  // \uFEFF é o BOM (Byte Order Mark) para garantir que o Excel abra com UTF-8 corretamente
+  const blob = new Blob(["\uFEFF" + conteudoCompleto], { 
+    type: `${mimeType};charset=utf-8` 
+  });
   
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
   
-  // Nome do arquivo formatado para fácil identificação
   const data = new Date().toISOString().split('T')[0];
-  a.download = `REMESSA_SBACEM_${data}.txt`;
+  a.download = `REMESSA_SBACEM_${data}.${extensao}`;
   
   document.body.appendChild(a);
   a.click();
